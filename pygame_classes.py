@@ -10,10 +10,10 @@ pygame.display.set_caption("test")
 clock = pygame.time.Clock()
 
 red= (255, 0, 0)
-black = (0,0,0)
 blue = (0,0,255)
 green = (0, 255,0)
 purple = (126,0,126)
+black = (0,0,0)
 white = (255,255,255)
 pink = (175, 0, 175)
 orange = (240, 100, 0)
@@ -22,7 +22,8 @@ yellow = (255,255,0)
 aqua = (0,255,255)
 lime = (0,255,0)
 
-colors = [red, black, blue, green, purple, white, pink, orange, gray, yellow, aqua, lime]
+colors = [red, blue, green, purple, white, pink, orange, gray, yellow, aqua, lime]
+
 
 # class circle:
 #     def __init__(self, radius, x, y, color):
@@ -62,36 +63,47 @@ colors = [red, black, blue, green, purple, white, pink, orange, gray, yellow, aq
 #2
 
 class circle:
-    # speed = random.randint(1,4)
-    def __init__(self, x, y, xMotion, color,):
+    
+    def __init__(self, x, y, xMotion, color, key):
         self.x = x
         self.y = y
         self.xMotion = xMotion
         self.color = color
+        self.key = key
         
     def draw_shapes(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
     def defMove(self):
         self.x += self.xMotion
-        if self.x > 575:
-            self.x = 25
+        # if self.x > 575:
+        #     self.x = 25
+        if self.x+25 >= 600:
+            self.xMotion = -speed
+        if self.x-25 <= 0:
+            self.xMotion = speed
 
-circle1 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
-circle2 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
-circle3 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
-circle4 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
-circle5 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
-circle6 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
-circle7 = circle(random.randint(0,635), 30, random.randint(1,4), random.choice(colors))
+keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+keyChoice = random.choice(keys)
+speed = random.randint(1,4)
 
-circle8 = circle(random.randint(25,635), 80, random.randint(1,4), random.choice(colors))
-circle9 = circle(random.randint(25,635), 80, random.randint(1,4), random.choice(colors))
-circle10 = circle(random.randint(25,635), 80, random.randint(1,4), random.choice(colors))
-circle11 = circle(random.randint(25,635), 80, random.randint(1,4), random.choice(colors))
+circle1 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle2 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle3 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle4 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle5 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle6 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle7 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+
+circle8 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
+circle9 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
+circle10 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
+circle11 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
 
 
 topCircles = [circle1, circle2, circle3, circle4, circle5, circle6, circle7]
 bottomCircles = [circle8, circle9, circle10, circle11]
+
+
 while True:
     clock.tick(30)
     pygame.display.update()
@@ -101,7 +113,7 @@ while True:
         each.defMove()
         each.draw_shapes()
     for each in bottomCircles:
-        print(each.xMotion)
+        # print(each.xMotion)
         each.defMove()
         each.draw_shapes()
 
@@ -109,6 +121,9 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
+
+
+
        
 
 
