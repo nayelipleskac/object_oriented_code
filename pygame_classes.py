@@ -1,4 +1,4 @@
-from pygame.constants import QUIT
+from pygame.constants import KEYDOWN, QUIT
 
 import pygame, random
 
@@ -61,47 +61,65 @@ colors = [red, blue, green, purple, white, pink, orange, gray, yellow, aqua, lim
 #     circle10.draw_shapes()
 
 #2
+def showtext(msg,x,y,color):
+    font = pygame.font.SysFont("freesans", 32)
+    msgobj = font.render(msg,False,white)
+    screen.blit(msgobj,(x,y))
+
 
 class circle:
     
-    def __init__(self, x, y, xMotion, color, key):
+    def __init__(self, x, y, ):
         self.x = x
         self.y = y
-        self.xMotion = xMotion
-        self.color = color
-        self.key = key
+        self.xMotion = random.randint(1,4)
+        self.color = random.choice(colors)
+        self.key =  random.choice(keys)
+        self.flag = False
+        self.timesPressed = 0
         
     def draw_shapes(self):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
+        if self.flag == False:
+            # print('the flag was not detected')
+            pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
+            showtext('{}'.format(self.key), self.x-10, self.y-15, white)
+        if self.flag == True:
+            # print('the flag was detected')
+            pygame.draw.circle(screen, black, (self.x, self.y), 25, 1)
+            self.timesPressed+=1
+            
+            print(self.key, self.timesPressed)
+            if self.timesPressed == 2:
+                self.flag = False
+       
     def defMove(self):
         self.x += self.xMotion
-        # if self.x > 575:
-        #     self.x = 25
         if self.x+25 >= 600:
-            self.xMotion = -speed
+            self.xMotion = -random.randint(1,4)
         if self.x-25 <= 0:
-            self.xMotion = speed
+            self.xMotion = random.randint(1,4)
 
 keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 keyChoice = random.choice(keys)
-speed = random.randint(1,4)
 
-circle1 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
-circle2 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
-circle3 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
-circle4 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
-circle5 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
-circle6 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
-circle7 = circle(random.randint(0,635), 30, speed, random.choice(colors), keyChoice)
+circle1 = circle(random.randint(0,635), 30)
+circle2 = circle(random.randint(0,635), 30)
+circle3 = circle(random.randint(0,635), 30)
+circle4 = circle(random.randint(0,635), 30)
+circle5 = circle(random.randint(0,635), 30)
+circle6 = circle(random.randint(0,635), 30)
+circle7 = circle(random.randint(0,635), 30)
 
-circle8 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
-circle9 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
-circle10 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
-circle11 = circle(random.randint(25,635), 80, speed, random.choice(colors), keyChoice)
+circle8 = circle(random.randint(25,635), 80)
+circle9 = circle(random.randint(25,635), 80)
+circle10 = circle(random.randint(25,635), 80)
+circle11 = circle(random.randint(25,635), 80)
 
 
 topCircles = [circle1, circle2, circle3, circle4, circle5, circle6, circle7]
 bottomCircles = [circle8, circle9, circle10, circle11]
+all = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10, circle11]
+
 
 
 while True:
@@ -121,6 +139,16 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
+        elif event.type == KEYDOWN:
+            print(event.key)
+            for each in all:
+                if chr(event.key) == each.key:
+                    each.flag = True
+                    print(each.key,'we got the key!')
+                  
+
+                    
+
 
 
 
