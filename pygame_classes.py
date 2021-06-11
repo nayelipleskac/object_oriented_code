@@ -80,17 +80,15 @@ class circle:
         
     def draw_shapes(self):
         if self.flag == False:
-            # print('the flag was not detected')
             pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
             showtext('{}'.format(self.key), self.x-10, self.y-15, white)
         if self.flag == True:
-            # print('the flag was detected')
             pygame.draw.circle(screen, black, (self.x, self.y), 25, 1)
-            self.timesPressed+=1
+
             
-            print(self.key, self.timesPressed)
-            if self.timesPressed == 2:
-                self.flag = False
+
+            # if self.timesPressed == 2:
+            #     self.flag = False
        
     def defMove(self):
         self.x += self.xMotion
@@ -145,7 +143,11 @@ while True:
                 if chr(event.key) == each.key:
                     each.flag = True
                     print(each.key,'we got the key!')
-                  
+                    each.timesPressed = each.timesPressed+1
+                    print(each.key, each.timesPressed)
+                    evenNum = each.timesPressed % 2
+                    if each.timesPressed == 2:
+                        each.flag = False
 
                     
 
