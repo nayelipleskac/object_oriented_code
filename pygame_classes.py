@@ -69,7 +69,7 @@ colors = [red, blue, green, purple, white, pink, orange, gray, yellow, aqua, lim
 
 # class circle:
     
-#     def __init__(self, x, y, ):
+#     def __init__(self, x, y):
 #         self.x = x
 #         self.y = y
 #         self.xMotion = random.randint(1,4)
@@ -152,12 +152,18 @@ colors = [red, blue, green, purple, white, pink, orange, gray, yellow, aqua, lim
 #                     #     each.flag = False
 
 
+def showtext(msg,x,y,color):
+    font = pygame.font.SysFont("freesans", 32)
+    msgobj = font.render(msg,False,white)
+    screen.blit(msgobj,(x,y))
+
 class circle:
     def __init__(self, y):
         self.x = 40
         self.y = y
         self.xMotion = random.randint(1,4)
         self.color = random.choice(colors) 
+        self.lap_count = 0
     def draw_shapes(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
     def move_shapes(self):
@@ -166,6 +172,14 @@ class circle:
             self.xMotion = -random.randint(1,4)
         if self.x-25 <= 0:
             self.xMotion = random.randint(1,4)
+        if self.x-25 == 0:
+            self.lap_count+=1
+        if self.lap_count == 3:
+            # print('WE HAVE A WINNER')
+            showtext('WE HAVE A WINNER!!', 160, 40, white)
+            for each in all:
+                each.x = 40
+
 
 
 circle1 = circle(40)
@@ -181,6 +195,7 @@ circle10 = circle(660)
 
 all = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10]
 
+
 while True:
     clock.tick(30)
     pygame.display.update()
@@ -188,17 +203,26 @@ while True:
 
     for each in all:
         each.draw_shapes()
-        each.move_shapes()
+        print(each.lap_count)
+        # each.move_shapes()
+        # print(each.lap_count)
+        
+        # if each.lap_count >= 1:
+        #     print('woo hoo!')
+        # if each.lap_count == 5:
+        #     each.x = 40
+  
+    #     ##starting with the space bar
+
     for event in pygame.event.get():
-    
         if event.type == QUIT:
-            pygame.quit()
-            exit()
-        #starting with the space bar
-        # elif event.type == KEYDOWN:
-        #     if event.key == K_SPACE:
-        #         for each in all:
-        #             each.move_shapes()
+                pygame.quit()
+                exit()
+        elif event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    for each in all:
+                        each.move_shapes()
+
 
                 
 
