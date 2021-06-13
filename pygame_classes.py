@@ -164,6 +164,7 @@ class circle:
         self.xMotion = random.randint(1,4)
         self.color = random.choice(colors) 
         self.lap_count = 0
+        self.finishers = 0
     def draw_shapes(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
     def move_shapes(self):
@@ -174,12 +175,18 @@ class circle:
             self.xMotion = random.randint(1,4)
         if self.x-25 == 0:
             self.lap_count+=1
-        if self.lap_count == 3:
-            # print('WE HAVE A WINNER')
+        if self.lap_count == 2:
+            self.finishers+=1
             showtext('WE HAVE A WINNER!!', 160, 40, white)
-            for each in all:
-                each.x = 40
-
+            if self.finishers == 1:
+                self.x = 40
+                self.color = red
+            if self.finishers == 2:
+                self.x = 40
+                self.color = blue
+            if self.finishers == 3:
+                self.x = 40
+                self.color = green
 
 
 circle1 = circle(40)
@@ -203,10 +210,11 @@ while True:
 
     for each in all:
         each.draw_shapes()
+        each.move_shapes()
         print(each.lap_count)
-        # each.move_shapes()
+
         # print(each.lap_count)
-        
+
         # if each.lap_count >= 1:
         #     print('woo hoo!')
         # if each.lap_count == 5:
@@ -218,10 +226,10 @@ while True:
         if event.type == QUIT:
                 pygame.quit()
                 exit()
-        elif event.type == KEYDOWN:
-                if event.key == K_SPACE:
-                    for each in all:
-                        each.move_shapes()
+        # elif event.type == KEYDOWN:
+        #         if event.key == K_SPACE:
+        #             for each in all:
+        #                 each.move_shapes()
 
 
                 
