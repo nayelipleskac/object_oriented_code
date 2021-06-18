@@ -157,27 +157,44 @@ def showtext(msg,x,y,color):
     msgobj = font.render(msg,False,white)
     screen.blit(msgobj,(x,y))
 
-class circle:
+placement_finisher_list = []
+
+class Circle:
+    
     def __init__(self, y):
         self.x = 40
         self.y = y
         self.xMotion = random.randint(1,4)
         self.color = random.choice(colors) 
         self.lap_count = 0
-        # self.finishers = 0
+        self.finishers = 0
         # self.finisherList = []
         self.placement_count = 0
     def draw_shapes(self):
-        if self.lap_count == 1:
-            if self.placement_count == 1:
+        # for each in circles:
+        #         placement_finisher_list.append(self.placement_count)
+        #         for eachC in placement_finisher_list:
+        #             max(placement_finisher_list) +1
+        if self.lap_count == 2:
+            #the lap count and the placement count are the same so when self.lapcount == 2 then all the circs are turning blue bc that waht the placement count is 
+            self.finishers += 1
+            
+            if self.finishers == 1:
+            # if self.placement_count == 1:
                 self.color = red
                 self.x = 40
-            if self.placement_count == 2:
+            if self.finishers == 2:
+            # if self.placement_count == 2:
                 self.color = blue
                 self.x = 40
-            if self.placement_count == 3:
+            if self.finishers == 3:
+            # if self.placement_count == 3:
                 self.color = green
                 self.x = 40 
+            if self.finishers >= 4:
+            # if self.placement_count >= 4:
+                self.x = 40
+                self.color = purple
 
         pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
     
@@ -189,47 +206,22 @@ class circle:
         if self.x-25 <= 0:
             self.xMotion = random.randint(1,4)
 
-        if self.lap_count == 1:
-
+        if self.finishers >= 1:
             showtext('WE HAVE A WINNER!!', 160, 40, white)
 
-            
-            # if self.x-25 == 0:
-            #     self.finishers+=1
-            #     if self.y == 40:   
-            #         self.finisherList.append(circle1)
-            #     elif self.y == 110:
-            #         self.finisherList.append(circle2)
-            #     else:
-            #         self.finisherList.append(circle3)
-          
-                # self.finisherList[1].color = blue
+circle1 = Circle(40)
+circle2 = Circle(110)
+circle3 = Circle(180)
+circle4 = Circle(250)
+circle5 = Circle(320)
+circle6 = Circle(390)
+circle7 = Circle(460)
+circle8 = Circle(530)
+circle9 = Circle(600)
+circle10 = Circle(660)
 
-
-            # if self.finishers == 1:
-            #     self.x = 40
-            #     self.color = red
-            # if each.finishers == 2:
-            #     each.x = 40
-            #     each.color = blue
-            # if each.finishers == 3:
-            #     each.x = 40
-            #     each.color = green
-
-
-circle1 = circle(40)
-circle2 = circle(110)
-circle3 = circle(180)
-circle4 = circle(250)
-circle5 = circle(320)
-circle6 = circle(390)
-circle7 = circle(460)
-circle8 = circle(530)
-circle9 = circle(600)
-circle10 = circle(660)
-
-all = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10]
-some = [circle1, circle2, circle3]
+circles = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10]
+# some = [circle1, circle2, circle3]
 
 
 while True:
@@ -237,22 +229,23 @@ while True:
     pygame.display.update()
     screen.fill(black)
 
-    for each in all:
-        each.draw_shapes()
-        each.move_shapes()
+    for c in circles:
+        c.draw_shapes()
+        c.move_shapes()
 
     for event in pygame.event.get():
         if event.type == QUIT:
                 pygame.quit()
                 exit()
-    for each in all:
-        if each.x-25 == 0:
-            each.lap_count+=1
-            each.placement_count+=1
-            print(each.placement_count)
-            if each.placement_count != 0:
+    for c in circles:
+        if c.x-25 == 0:
+            c.lap_count+=1
+            # c.placement_count+=1
+            print(c.finishers)
+            # print(c.placement_count)
+            if c.placement_count != 0:
                 #lock in?
-                each.placement_count = each.placement_count
+                c.placement_count = c.placement_count
 
         # elif event.type == KEYDOWN:
         #         if event.key == K_SPACE:
