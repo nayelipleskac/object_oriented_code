@@ -322,14 +322,19 @@ while True:
                 Circle.radius = Circle.radius + 2
             if event.key == K_DOWN:
                 Circle.radius = Circle.radius - 2 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == MOUSEBUTTONDOWN:
+            x_co, y_co = pygame.mouse.get_pos()
             print(event.button)
-            if event.button == K_RIGHT:
-                Circle.radius = Circle.radius + 2
-                pass
-            if event.button == K_LEFT:
-                Circle.radius = Circle.radius -2
-                pass
+            if event.button == 3:
+                if c.x and c.y in range(x_co, y_co):
+                    print(pygame.mouse.get_pos())
+                    c.radius = c.radius - 2
+                
+            if event.button == 1:
+                if c.x and c.y in range(x_co, y_co):
+                    print(pygame.mouse.get_pos())
+                    c.radius = c.radius + 2
+                
                 
 
       
