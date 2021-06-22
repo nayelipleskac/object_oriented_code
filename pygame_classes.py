@@ -311,29 +311,31 @@ while True:
     screen.fill(black)
     for c in circles:
         c.draw()
+    
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == KEYDOWN:
+                if event.key == K_UP:
+                    Circle.radius = Circle.radius + 2
+                if event.key == K_DOWN:
+                    Circle.radius = Circle.radius - 2 
+            elif event.type == MOUSEBUTTONDOWN:
+                print(event.button)
+                if event.button == 3:
+                    x_co, y_co = pygame.mouse.get_pos()
+                    if x_co in range(c.x, c.x + c.radius*2) and y_co in range(c.y + c.radius*2):
+                        print(pygame.mouse.get_pos())
+                        c.radius = c.radius - 2
+                    
+                if event.button == 1:
+                    x_co, y_co = pygame.mouse.get_pos()
+                    if x_co in range(c.x, c.x + c.radius*2) and y_co in range(c.y + c.radius*2):                    
+                        print(pygame.mouse.get_pos())
+                        c.radius = c.radius + 2
     clock.tick(50)
     pygame.display.update()
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_UP:
-                Circle.radius = Circle.radius + 2
-            if event.key == K_DOWN:
-                Circle.radius = Circle.radius - 2 
-        elif event.type == MOUSEBUTTONDOWN:
-            x_co, y_co = pygame.mouse.get_pos()
-            print(event.button)
-            if event.button == 3:
-                if c.x and c.y in range(x_co, y_co):
-                    print(pygame.mouse.get_pos())
-                    c.radius = c.radius - 2
-                
-            if event.button == 1:
-                if c.x and c.y in range(x_co, y_co):
-                    print(pygame.mouse.get_pos())
-                    c.radius = c.radius + 2
                 
                 
 
