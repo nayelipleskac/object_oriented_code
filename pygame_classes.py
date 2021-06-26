@@ -284,15 +284,96 @@ colors = [red, blue, green, purple, white, pink, orange, gray, yellow, aqua, lim
 # print(ob2.radius)
 
 
-class Circle:
-    radius = 20
-    def __init__(self):
-        self.x = random.randint(10,590)
-        self.y = random.randint(10, 690)
-        self.color = random.choice(colors)
-    def draw(self):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius, 1)
+# class Circle:
+#     radius = 20
+#     def __init__(self):
+#         self.x = random.randint(10,590)
+#         self.y = random.randint(10, 690)
+#         self.color = random.choice(colors)
+#     def draw(self):
+#         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius, 1)
 
+# circle1 = Circle()
+# circle2 = Circle()
+# circle3 = Circle()
+# circle4 = Circle()
+# circle5 = Circle()
+# circle6 = Circle()
+# circle7 = Circle()
+# circle8 = Circle()
+# circle9 = Circle()
+# circle10 = Circle()
+
+# circles = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10]
+
+
+# while True:
+#     screen.fill(black)
+#     for c in circles:
+#         c.draw()
+    
+#         for event in pygame.event.get():
+#             if event.type == QUIT:
+#                 pygame.quit()
+#                 exit()
+#             elif event.type == KEYDOWN:
+#                 if event.key == K_UP:
+#                     Circle.radius = Circle.radius + 2
+#                 if event.key == K_DOWN:
+#                     Circle.radius = Circle.radius - 2 
+#             elif event.type == MOUSEBUTTONDOWN:
+#                 print(event.button)
+#                 if event.button == 3:
+#                     circle1.radius+= 5
+#                     print('circle 1 radius += 5')
+
+#                     x_co, y_co = pygame.mouse.get_pos()
+#                     print(pygame.mouse.get_pos())
+#                     if x_co in range(c.x - c.radius, c.x + c.radius) and  y_co in range(c.y - c.radius, c.y + c.radius):
+#                     # if x_co in range(c.x, c.x + c.radius*2) and y_co in range(c.y + c.radius*2):
+#                         print('mouse pos inside circle')
+#                         c.radius = c.radius - 2
+                    
+#                 if event.button == 1:
+#                     circle2.radius+=5
+#                     print('circle 2 radius += 5')
+
+#                     x_co, y_co = pygame.mouse.get_pos()
+#                     print(pygame.mouse.get_pos())
+#                     if x_co in range(c.x - c.radius, c.x + c.radius) and  y_co in range(c.y - c.radius, c.y + c.radius):
+#                     # if x_co in range(c.x, c.x + c.radius*2) and y_co in range(c.y + c.radius*2):                    
+#                         print('mouse pos inside circle')
+#                         c.radius = c.radius + 2
+#     clock.tick(50)
+#     pygame.display.update()
+
+#up and down circles 
+circleColor = [red, blue]
+class Circle():
+    radius = 15
+    def __init__(self):
+        self.color = random.choice(circleColor)
+        self.x = random.randint(25, 575)
+        self.y = random.randint(25, 675)
+        self.xSpeed = 0
+        self.ySpeed = 0
+    def draw(self):
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+    def checkandMove(self):
+        if self.color == red:
+            self.xSpeed = 5
+            self.ySpeed = 0
+            self.x += self.xSpeed
+        if self.color == blue:
+            self.xSpeed = 0
+            self.ySpeed = 5
+            self.y += self.ySpeed
+        if self.x < 25 or self.x > 675:
+            self.xSpeed = -self.xSpeed
+        if self.y < 25 or self.y > 775:
+            self.ySpeed = -self.ySpeed
+
+#circles 
 circle1 = Circle()
 circle2 = Circle()
 circle3 = Circle()
@@ -309,34 +390,18 @@ circles = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle
 
 while True:
     screen.fill(black)
+    # draw circle
     for c in circles:
         c.draw()
-    
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                exit()
-            elif event.type == KEYDOWN:
-                if event.key == K_UP:
-                    Circle.radius = Circle.radius + 2
-                if event.key == K_DOWN:
-                    Circle.radius = Circle.radius - 2 
-            elif event.type == MOUSEBUTTONDOWN:
-                print(event.button)
-                if event.button == 3:
-                    x_co, y_co = pygame.mouse.get_pos()
-                    if x_co in range(c.x, c.x + c.radius*2) and y_co in range(c.y + c.radius*2):
-                        print(pygame.mouse.get_pos())
-                        c.radius = c.radius - 2
-                    
-                if event.button == 1:
-                    x_co, y_co = pygame.mouse.get_pos()
-                    if x_co in range(c.x, c.x + c.radius*2) and y_co in range(c.y + c.radius*2):                    
-                        print(pygame.mouse.get_pos())
-                        c.radius = c.radius + 2
-    clock.tick(50)
+        c.checkandMove()
     pygame.display.update()
-                
+    clock.tick(100)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    
+
                 
 
       
