@@ -4,7 +4,7 @@ import pygame, random
 
 #1
 pygame.init() 
-screen = pygame.display.set_mode((600,700))
+screen = pygame.display.set_mode((600,600))
 pygame.display.set_caption("test")
 
 clock = pygame.time.Clock()
@@ -353,25 +353,42 @@ class Circle():
     radius = 15
     def __init__(self):
         self.color = random.choice(circleColor)
-        self.x = random.randint(25, 575)
-        self.y = random.randint(25, 675)
-        self.xSpeed = 0
-        self.ySpeed = 0
+        self.x = random.randint(30, 550)
+        self.y = random.randint(30, 550)
+        self.xSpeed = random.randint(1,3)
+        self.ySpeed = random.randint(1,3)
     def draw(self):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
-    def checkandMove(self):
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius, 1)
+    def move(self):
         if self.color == red:
-            self.xSpeed = 5
-            self.ySpeed = 0
-            self.x += self.xSpeed
+            c.x += c.xSpeed
+            if c.x+15 > 600:
+                c.xSpeed = -random.randint(1,3)
+            if c.x-15 < 0:
+                c.xSpeed = random.randint(1,3)
         if self.color == blue:
-            self.xSpeed = 0
-            self.ySpeed = 5
-            self.y += self.ySpeed
-        if self.x < 25 or self.x > 675:
-            self.xSpeed = -self.xSpeed
-        if self.y < 25 or self.y > 775:
-            self.ySpeed = -self.ySpeed
+            c.y += c.ySpeed
+            if c.y+15 > 600:
+                c.ySpeed = -random.randint(1,3)
+            if c.y-15 < 0:
+                c.ySpeed = random.randint(1,3)
+
+
+        # if self.color == red:
+            #red moves horizontally
+        # self.xSpeed = 2
+        # self.ySpeed = 0
+       
+
+        # if self.color == blue:
+        #     #blue moves vertically
+        #     self.xSpeed = 0
+        #     self.ySpeed = 2
+        #     self.y += self.ySpeed
+        #     if self.y-15 < 0 or self.y-15 > 700:
+        #         self.ySpeed = -self.ySpeed
+        
+        
 
 #circles 
 circle1 = Circle()
@@ -393,7 +410,9 @@ while True:
     # draw circle
     for c in circles:
         c.draw()
-        c.checkandMove()
+        c.move()
+        
+        
     pygame.display.update()
     clock.tick(100)
     for event in pygame.event.get():
@@ -406,87 +425,87 @@ while True:
 
       
 #Circle Race Game
-# import pygame, random
-# pygame.init()
-# screen = pygame.display.set_mode((1000, 600))
-# clock = pygame.time.Clock()
-# class Circle():
-#     def __init__(self, color, x, y, radius, speed, lap):
-#         self.color = color
-#         self.x = x
-#         self.y = y
-#         self.radius = radius
-#         self.speed = speed
-#         self.lap = lap
-#     def draw(self):
-#         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
-# # colors
-# black = (0, 0, 0)
-# red = (255, 0, 0)
-# green = (0, 255, 0)
-# blue = (0, 0, 255)
-# white = (255, 255, 255)
-# yellow = (200, 200, 0)
-# # circles
-# circle = []
-# x = 50
-# radius = 25
-# lap = 0
-# for y in range(50, 550, 50):
-#     speed = random.randint(1, 5)
-#     c = Circle(white, x, y, radius, speed, lap)
-#     circle.append(c)
-# # positions
-# first = 1
-# second = 0
-# third = 0
-# while True:
-#     # fill
-#     screen.fill(black)
-#     # close event
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             exit()
-#     # draw circle
-#     for c in circle:
-#         c.draw()
-#         c.x = c.x + c.speed
-#         # bounce
-#         if c.x > 950 or c.x < 25:
-#             c.speed = -c.speed
-#         # lap count
-#         if c.x <= 25:
-#             c.lap = c.lap + 1
-#             print('circle', circle.index(c), 'lap', c.lap)
-#         # color change
-#         if c.lap >= 5 and first == 1:
-#             first = 0
-#             second = 1
-#             c.color = red
-#             c.x = 26
-#             c.speed = 0
-#             c.lap=-1
-#         elif c.lap >= 5 and second == 1:
-#             first = 0
-#             second = 0
-#             third = 1
-#             c.color = green
-#             c.x = 26
-#             c.speed = 0
-#             c.lap=-1
-#         elif c.lap >= 5 and third == 1:
-#             first = 0
-#             second = 0
-#             third = 0
-#             c.color = blue
-#             c.x = 26
-#             c.speed = 0
-#             c.lap=-1
-#     # clock
-#     clock.tick(100)
-#     # update
-#     pygame.display.update()
+import pygame, random
+pygame.init()
+screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
+class Circle():
+    def __init__(self, color, x, y, radius, speed, lap):
+        self.color = color
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.speed = speed
+        self.lap = lap
+    def draw(self):
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+# colors
+black = (0, 0, 0)
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+white = (255, 255, 255)
+yellow = (200, 200, 0)
+# circles
+circle = []
+x = 50
+radius = 25
+lap = 0
+for y in range(50, 550, 50):
+    speed = random.randint(1, 5)
+    c = Circle(white, x, y, radius, speed, lap)
+    circle.append(c)
+# positions
+first = 1
+second = 0
+third = 0
+while True:
+    # fill
+    screen.fill(black)
+    # close event
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    # draw circle
+    for c in circle:
+        c.draw()
+        c.x = c.x + c.speed
+        # bounce
+        if c.x > 950 or c.x < 25:
+            c.speed = -c.speed
+        # lap count
+        if c.x <= 25:
+            c.lap = c.lap + 1
+            print('circle', circle.index(c), 'lap', c.lap)
+        # color change
+        if c.lap >= 5 and first == 1:
+            first = 0
+            second = 1
+            c.color = red
+            c.x = 26
+            c.speed = 0
+            c.lap=-1
+        elif c.lap >= 5 and second == 1:
+            first = 0
+            second = 0
+            third = 1
+            c.color = green
+            c.x = 26
+            c.speed = 0
+            c.lap=-1
+        elif c.lap >= 5 and third == 1:
+            first = 0
+            second = 0
+            third = 0
+            c.color = blue
+            c.x = 26
+            c.speed = 0
+            c.lap=-1
+    # clock
+    clock.tick(100)
+    # update
+    pygame.display.update()
 
 
 
