@@ -14,8 +14,7 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 white = (255, 255, 255)
 yellow = (200, 200, 0)
-
-#Basic syntax for Ball class: 
+ 
 class Ball():     
     def __init__(self):         
         self.x = 300         
@@ -41,31 +40,35 @@ class Ball():
             ball.ymovement = -ball.ymovement
 
         #hitting left
-        if ball.x + ball.radius  > 600:
+        if ball.x + ball.radius > 600:
+            p1.score +=1
+            ball.x = 300
+            ball.y = 300
             print('right')
-            ball.xmovement = -ball.xmovement
-            # ball.x = 300
-            # ball.y = 300
+            print( 'p1: ',p1.score, 'p2: ',p2.score)
+        
+            
 
         #hitting right
         if ball.x - ball.radius < 0:
-            print('left')
-            ball.xmovement = -ball.xmovement
-            # ball.x = 300
-            # ball.y = 300
+            ball.x = 300
+            ball.y = 300
+            p2.score += 1
+            print('left,')
+            print( 'p1: ',p1.score, 'p2: ',p2.score)
+            
         
-
-        if ball.x + ball.radius in range(p2.x, p2.x + 50) and ball.y+ ball.radius in range(p2.y, p2.y + 150):
-            ball.xmovement = -1
-
+        #collison with paddles
         if ball.x - ball.radius in range(p1.x, p1.x + 50) and ball.y- ball.radius in range(p1.y, p1.y + 150):
             ball.xmovement = 1
 
+        if ball.x + ball.radius in range(p2.x, p2.x + 50) and ball.y- ball.radius in range(p2.y, p2.y + 150):
+            ball.xmovement = -1
 
-
+        
 ball = Ball()  # Creating an object/instance of this class. 
 
-#Basic syntax for Paddle class: 
+
 #arrows are for right Paddle
 #WASD for left paddle
 
@@ -77,15 +80,21 @@ class Paddle():
         self.width = 20         
         self.height = 200 
         self.up = False         
-        self.down = False         
+        self.down = False   
         self.score = 0         
         self.speed = 1
 
     def drawPaddle(self):
         pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 150),0)
+    def showScore(self, text, x, y, color):
+        font = pygame.font.SysFont('freesans', 32)
+        msg = font.render(text, True, color)
+        screen.blit(msg, (x,y))
 
 p1 = Paddle(green, 10, 200)    # Paddle 1 
 p2 = Paddle(blue, 540, 200)  # Paddle 2 
+# showScore('Left Paddle: 0 | Right Paddle: 0', 100, 30)
+# showScore('Left Paddle: {} | Right Paddle: {}'.format(p1.score, p2.score), 100, 35, white)
 
 while True:
 
@@ -95,7 +104,8 @@ while True:
     ball.moveBall()
     p1.drawPaddle()
     p2.drawPaddle()
-    
+    p1.showScore('Left Paddle: {}'.format(p1.score), 100, 35, white)
+    p2.showScore('Right Paddle: {}'.format(p2.score), 300, 35, white)
 
     #boundaries 
     if p2.y <= 0:
@@ -116,6 +126,25 @@ while True:
         p1.y -= p1.speed
     if p1.down == True:
         p1.y += p1.speed
+
+    #managing score
+    if p1.score >= 10:
+        
+        p1.showScore('LEFT PADDLE WINS!!', 175, 100, white)
+        p2.showScore('', 200, 35, white)
+        print('P1 WON!!')
+        pygame.display.update()
+        time.sleep(5)
+        break
+    if p2.score >= 10:
+        
+        p1.showScore('', 200, 35, white)
+        p2.showScore('RIGHT PADDLE WINS!!', 175, 100, white)
+        print('P2 WON!!')
+        pygame.display.update()
+        time.sleep(5)
+        break
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
