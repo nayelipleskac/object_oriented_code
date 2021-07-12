@@ -14,6 +14,8 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 white = (255, 255, 255)
 yellow = (200, 200, 0)
+
+#reminder: get colliderect to work on paddles
  
 class Ball():     
     def __init__(self):         
@@ -23,8 +25,9 @@ class Ball():
         self.radius = 20         
         self.xmovement = 2         
         self.ymovement = 2 
+        self.rect = None
     def drawBall(self):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius, 0)
+        self.rect = pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius, 0)
     def moveBall(self):
         ball.x += ball.xmovement
         ball.y += ball.ymovement
@@ -45,7 +48,7 @@ class Ball():
             ball.x = 300
             ball.y = 300
             print('right')
-            print( 'p1: ',p1.score, 'p2: ',p2.score)
+            print( 'p1: ',p1.score, 'p2: ', p2.score)
         
             
 
@@ -55,14 +58,19 @@ class Ball():
             ball.y = 300
             p2.score += 1
             print('left,')
-            print( 'p1: ',p1.score, 'p2: ',p2.score)
+            print( 'p1: ',p1.score, 'p2: ', p2.score)
             
         
         #collison with paddles
-        if ball.x - ball.radius in range(p1.x, p1.x + 50) and ball.y- ball.radius in range(p1.y, p1.y + 150):
-            ball.xmovement = 1
+        # if ball.x - ball.radius in range(p1.x, p1.x + 50) and ball.y- ball.radius in range(p1.y, p1.y + 150):
+        #     ball.xmovement = 1
 
-        if ball.x + ball.radius in range(p2.x, p2.x + 50) and ball.y- ball.radius in range(p2.y, p2.y + 150):
+        # if ball.x + ball.radius in range(p2.x, p2.x + 50) and ball.y+ ball.radius in range(p2.y, p2.y + 150):
+        #     ball.xmovement = -1
+
+        if (ball.rect).colliderect(p1.rect):
+            ball.xmovement = 1
+        if (ball.rect).colliderect(p2.rect):
             ball.xmovement = -1
 
         
@@ -83,9 +91,10 @@ class Paddle():
         self.down = False   
         self.score = 0         
         self.speed = 1
+        self.rect = None
 
     def drawPaddle(self):
-        pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 150),0)
+        self.rect = pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 150),0)
     def showScore(self, text, x, y, color):
         font = pygame.font.SysFont('freesans', 32)
         msg = font.render(text, True, color)
