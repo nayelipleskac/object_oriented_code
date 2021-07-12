@@ -16,6 +16,7 @@ white = (255, 255, 255)
 yellow = (200, 200, 0)
 
 #reminder: get colliderect to work on paddles
+#reminder:
  
 class Ball():     
     def __init__(self):         
