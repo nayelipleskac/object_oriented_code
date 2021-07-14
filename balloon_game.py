@@ -34,11 +34,14 @@ class balloon:
         self.key =  random.choice(keys)
         self.flag = False
         self.timesPressed = 0
-        self.image = pygame.image.load('')
+        
         
     def draw_shapes(self):
         if self.flag == False:
-            pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
+            # pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
+            balloon_image = pygame.image.load("C:/Users/plesk/OneDrive/Documents/python projects/balloon game sprite/balloon-sprite.png")
+            balloon_sprite = pygame.transform.scale(balloon_image, (60, 60))
+            screen.blit(balloon_sprite, (self.x, self.y))
             showtext('{}'.format(self.key), self.x-10, self.y-15, white)
         if self.flag == True:
             pygame.draw.circle(screen, black, (self.x, self.y), 25, 1)
