@@ -39,7 +39,7 @@ class balloon:
     def draw_shapes(self):
         if self.flag == False:
             # pygame.draw.circle(screen, self.color, (self.x, self.y), 25, 1)
-            balloon_image = pygame.image.load("C:/Users/plesk/OneDrive/Documents/python projects/balloon game sprite/balloon-sprite.png")
+            balloon_image = pygame.image.load("C:/Users/plesk/Downloads/balloon-sprite-removebg-preview.png")
             balloon_sprite = pygame.transform.scale(balloon_image, (60, 60))
             screen.blit(balloon_sprite, (self.x, self.y))
             showtext('{}'.format(self.key), self.x-10, self.y-15, white)
