@@ -105,17 +105,18 @@ while True:
             for balloon_object in circles_list:
                 if key_pressed == balloon_object.key:
                     check = 1
-                
+                if key_pressed != balloon_object.key:
+                    check = 0
+                if check == 0:
+                    score -= 1
+                    check = 0
+              
                 if check == 1:
                     score+= 1
                     circles_list.remove(balloon_object)
                     circles_list.append(balloon(random.randint(0,500), random.randint(25,550)))
                     check = 0
-                # elif key_pressed != balloon_object.key:
-                #     check = 0
-                #     if check == 0:
-
-                #         score -= 1
+      
     pygame.display.update()
 
 
