@@ -31,7 +31,7 @@ class balloon:
         self.y = y
         self.xMotion = random.randint(1,4)
         self.color = random.choice(colors)
-        self.key =  random.choice(keys)
+        self.key =  chr(random.randint(97,122))
         self.flag = False
         self.timesPressed = 0
         
@@ -48,25 +48,25 @@ class balloon:
        
     def move(self):
         self.x += self.xMotion
-        if self.x+25 >= 600:
+        if self.x+25 >= 560:
             self.xMotion = -random.randint(1,4)
         if self.x-25 <= 0:
             self.xMotion = random.randint(1,4)
 
-keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-keyChoice = random.choice(keys)
+# keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+# keyChoice = random.choice(keys)
 
-circle1 = balloon(random.randint(0,635), random.randint(25,575))
-circle2 = balloon(random.randint(0,635), random.randint(25,575))
-circle3 = balloon(random.randint(0,635), random.randint(25,575))
-circle4 = balloon(random.randint(0,635), random.randint(25,575))
-circle5 = balloon(random.randint(0,635), random.randint(25,575))
-circle6 = balloon(random.randint(0,635), random.randint(25,575))
-circle7 = balloon(random.randint(0,635), random.randint(25,575))
+circle2 = balloon(random.randint(0,500), random.randint(25,550))
+circle1 = balloon(random.randint(0,500), random.randint(25,550))
+circle3 = balloon(random.randint(0,500), random.randint(25,550))
+circle4 = balloon(random.randint(0,500), random.randint(25,550))
+circle5 = balloon(random.randint(0,500), random.randint(25,550))
+circle6 = balloon(random.randint(0,500), random.randint(25,550))
+circle7 = balloon(random.randint(0,500), random.randint(25,550))
 
-circle8 = balloon(random.randint(25,635), random.randint(25,575))
-circle9 = balloon(random.randint(25,635), random.randint(25,575))
-circle10 = balloon(random.randint(25,635), random.randint(25,575))
+circle8 = balloon(random.randint(25,500), random.randint(25,550))
+circle9 = balloon(random.randint(25,500), random.randint(25,550))
+circle10 = balloon(random.randint(25,500), random.randint(25,550))
 
 circles_list = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10]
 
