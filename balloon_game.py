@@ -24,6 +24,8 @@ def showtext(msg,x,y,color):
     screen.blit(msgobj,(x,y))
 
 
+
+
 class balloon:
     
     def __init__(self, x, y):
@@ -33,7 +35,7 @@ class balloon:
         self.color = random.choice(colors)
         self.key =  chr(random.randint(97,122))
         self.flag = False
-        self.timesPressed = 0
+        # self.score = 0
         
         
     def draw_shapes(self):
@@ -44,7 +46,10 @@ class balloon:
             screen.blit(balloon_sprite, (self.x, self.y))
             showtext('{}'.format(self.key), self.x-10, self.y-15, white)
         if self.flag == True:
-            pygame.draw.circle(screen, black, (self.x, self.y), 25, 1)
+            #the sprite disappears
+            circles_list.remove(self)
+            print(len(circles_list))
+            # pygame.draw.circle(screen, black, (self.x, self.y), 25, 1)
        
     def move(self):
         self.x += self.xMotion
@@ -52,9 +57,9 @@ class balloon:
             self.xMotion = -random.randint(1,4)
         if self.x-25 <= 0:
             self.xMotion = random.randint(1,4)
+    
+        
 
-# keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-# keyChoice = random.choice(keys)
 
 circle2 = balloon(random.randint(0,500), random.randint(25,550))
 circle1 = balloon(random.randint(0,500), random.randint(25,550))
@@ -69,14 +74,25 @@ circle9 = balloon(random.randint(25,500), random.randint(25,550))
 circle10 = balloon(random.randint(25,500), random.randint(25,550))
 
 circles_list = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9, circle10]
+check = 0
+
+# def showtext(text, color, x, y):
+#     font = pygame.font.SysFont('freesans', 32)
+#     msg = font.render(text, True, color)
+#     screen.blit(msg, (x,y))
+
+score = 0
 
 while True:
-    clock.tick(30)
-    pygame.display.update()
     screen.fill(black)
+
+    clock.tick(30)
+    showtext('Score: {}'.format(score), 480, 25, white)
+
     for c in circles_list:
         c.move()
         c.draw_shapes()
+        
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -84,12 +100,29 @@ while True:
             exit()
         elif event.type == KEYDOWN:
             print(event.key)
-            # for c in circles_list:
-            if chr(event.key) == c.key:
-                c.flag = True
-                print(c.key,'we got the key!')
-                c.timesPressed = c.timesPressed+1
-                print(c.key, c.timesPressed)
-                if c.timesPressed % 2 == 0:
-                    c.flag = False
+            key_pressed = pygame.key.name(event.key)
+            print(key_pressed)
+            for balloon_object in circles_list:
+                if key_pressed == balloon_object.key:
+                    check = 1
+                
+                if check == 1:
+                    score+= 1
+                    circles_list.remove(balloon_object)
+                    circles_list.append(balloon(random.randint(0,500), random.randint(25,550)))
+                    check = 0
+                # elif key_pressed != balloon_object.key:
+                #     check = 0
+                #     if check == 0:
+
+                #         score -= 1
+    pygame.display.update()
+
+
+                    # c.flag = True
+                    # print(c.key,'we got the key!')
+                    # c.timesPressed = c.timesPressed+1
+                    # print(c.key, c.timesPressed)
+                    # if c.timesPressed % 2 == 0:
+                    #     c.flag = False
              
