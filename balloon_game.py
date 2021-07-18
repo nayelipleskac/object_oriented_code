@@ -28,28 +28,27 @@ class balloon:
     def __init__(self, x, y, key):
         self.x = x
         self.y = y
-        self.yMotion = 2
+        self.yMotion = random.randint(1,4)
         self.color = random.choice(colors)
         self.key =  key
-        self.flag = False        
         
     def draw_shapes(self):
-        if self.flag == False:
-            balloon_image = pygame.image.load("C:/Users/plesk/Downloads/balloon-sprite-removebg-preview.png")
-            balloon_sprite = pygame.transform.scale(balloon_image, (60, 60))
-            screen.blit(balloon_sprite, (self.x, self.y))
-            showtext('{}'.format(self.key), self.x-10, self.y-15, white)
-        if self.flag == True:
-            #the sprite disappears
-            circles_list.remove(self)
-            print(len(circles_list))
+
+     
+        balloon_image = pygame.image.load("C:/Users/plesk/Downloads/balloon-sprite-removebg-preview.png")
+        balloon_sprite = pygame.transform.scale(balloon_image, (60, 60))
+        screen.blit(balloon_sprite, (self.x, self.y))
+        showtext('{}'.format(self.key), self.x-10, self.y-15, white)
+    
        
     def move(self):
         self.y += self.yMotion
         if self.y+25 >= 560:
-            self.yMotion = -random.randint(1,3)
+            self.yMotion = -random.randint(1,4)
+            
         if self.y-25 <= 0:
-            self.yMotion = random.randint(1,3)
+            self.yMotion = random.randint(1,4)
+            
     
 
 key_list = []
@@ -81,16 +80,17 @@ while True:
         time.sleep(5)
         break
 
-    if score % 2 == 0:
-        yMotion = random.randint(1,4)
-    else:
-        yMotion = 2
-        
     if score <= -3:
         showtext('You lost! Too many wrong guesses!', 20, 15, white)
         pygame.display.update()
         time.sleep(5)
         break
+
+    if score % 2 == 0:
+        yMotion = 5
+
+    # if score % 2 == 1:
+    #     yMotion = 2
         
 
     for event in pygame.event.get():
@@ -107,6 +107,12 @@ while True:
                     score+= 1
                     circles_list.remove(balloon_object)
                     key_list.remove(key_pressed)
+                    #balloon pop sprite
+                    balloon_pop_image = pygame.image.load("C:/Users/plesk/Downloads/balloon_pop-removebg-preview.png")
+                    balloon_pop_sprite = pygame.transform.scale(balloon_pop_image, (150, 150))
+                    screen.blit(balloon_pop_sprite, (balloon_object.x-45, balloon_object.y-45))
+                    pygame.display.update()
+                    time.sleep(1)
                     break
 
             else:
@@ -115,6 +121,7 @@ while True:
                 circle = balloon(random.randint(25,500), random.randint(25,550), letter)
                 circles_list.append(circle)
                 score -= 1
+
 
          
 
