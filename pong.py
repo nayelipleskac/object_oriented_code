@@ -74,8 +74,7 @@ class Ball():
             ball.xmovement = -1
 
         
-ball = Ball()  # Creating an object/instance of this class. 
-
+ball = Ball()  
 
 #arrows are for right Paddle
 #WASD for left paddle

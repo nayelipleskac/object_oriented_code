@@ -23,8 +23,9 @@ def showtext(msg,x,y,color):
     msgobj = font.render(msg,False,white)
     screen.blit(msgobj,(x,y))
 
+
 class balloon:
-    
+
     def __init__(self, x, y, key):
         self.x = x
         self.y = y
@@ -34,7 +35,6 @@ class balloon:
         
     def draw_shapes(self):
 
-     
         balloon_image = pygame.image.load("C:/Users/plesk/Downloads/balloon-sprite-removebg-preview.png")
         balloon_sprite = pygame.transform.scale(balloon_image, (60, 60))
         screen.blit(balloon_sprite, (self.x, self.y))
@@ -42,27 +42,22 @@ class balloon:
     
        
     def move(self):
-        self.y += self.yMotion
-        if self.y+25 >= 560:
-            self.yMotion = -random.randint(1,4)
-            
-        if self.y-25 <= 0:
-            self.yMotion = random.randint(1,4)
-            
-    
-
+        self.y -= self.yMotion
+ 
+ 
 key_list = []
 circles_list = []
 
 for x in range(10):
     letter = chr(random.randint(97, 122))
     key_list.append(letter)
-    circle = balloon(random.randint(15,560), 530, letter)
+    circle = balloon(random.randint(30,560), 530, letter)
     circles_list.append(circle)
 
-check = 0
 decrease = 0
 score = 0
+check = False
+
 
 while True:
     screen.fill(black)
@@ -73,25 +68,30 @@ while True:
     for c in circles_list:
         c.move()
         c.draw_shapes()
-    
+
+    #scoring  
     if score >= 10:
         showtext('You Won!', 250, 300, white)
         pygame.display.update()
-        time.sleep(5)
+        time.sleep(3)
         break
 
     if score <= -3:
         showtext('You lost! Too many wrong guesses!', 20, 15, white)
         pygame.display.update()
-        time.sleep(5)
+        time.sleep(3)
+        break
+
+
+    #balloon went off screen- end game
+    if c.y+25 <= 0:
+        showtext('You lost! A balloon went off the screen.', 50, 320, white)
+        pygame.display.update()
+        time.sleep(3)
         break
 
     if score % 2 == 0:
         yMotion = 5
-
-    # if score % 2 == 1:
-    #     yMotion = 2
-        
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -112,7 +112,7 @@ while True:
                     balloon_pop_sprite = pygame.transform.scale(balloon_pop_image, (150, 150))
                     screen.blit(balloon_pop_sprite, (balloon_object.x-45, balloon_object.y-45))
                     pygame.display.update()
-                    time.sleep(1)
+                    time.sleep(0.5)
                     break
 
             else:
@@ -122,8 +122,6 @@ while True:
                 circles_list.append(circle)
                 score -= 1
 
-
-         
 
     pygame.display.update()
 
