@@ -75,16 +75,16 @@ class Ball():
             ball.xmovement = -1
 
         #checking top p1
-        if ball.x- ball.radius in range(p1.x, p1.x+25):
+        if ball.y- ball.radius in range(p1.x, p1.x+25):
             ball.ymovement = 1
         #checking bottom p1
-        if ball.x- ball.radius in range(p1.x-150, p1.x-150+25):
+        if ball.y+ ball.radius in range(p1.x-150, p1.x-150+25):
             ball.ymovement = -1
         #checking top p2
-        if ball.x+ ball.radius in range(p2.x, p2.x+25):
+        if ball.y- ball.radius in range(p2.x, p2.x+25):
             ball.ymovement = 1
         #checking bottom p2
-        if ball.x+ ball.radius in range(p2.x-150, p2.x-150+25):
+        if ball.y+ ball.radius in range(p2.x-150, p2.x-150+25):
             ball.ymovement = -1
            
 
