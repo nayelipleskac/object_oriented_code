@@ -22,7 +22,7 @@ class Ball():
         self.x = 300         
         self.y = 300         
         self.color = red        
-        self.radius = 20         
+        self.radius = 10         
         self.xmovement = 2         
         self.ymovement = 2 
         self.rect = None
@@ -62,16 +62,36 @@ class Ball():
             
         
         #collison with paddles
-        # if ball.x - ball.radius in range(p1.x, p1.x + 50) and ball.y- ball.radius in range(p1.y, p1.y + 150):
-        #     ball.xmovement = 1
-
-        # if ball.x + ball.radius in range(p2.x, p2.x + 50) and ball.y+ ball.radius in range(p2.y, p2.y + 150):
-        #     ball.xmovement = -1
-
-        if (ball.rect).colliderect(p1.rect):
+        #checking front
+        if ball.x - ball.radius in range(p1.x, p1.x + 25) and ball.y- ball.radius in range(p1.y, p1.y + 150):
+            ball.x = ball.x + ball.radius-5
+            print('ball x col. with left paddle ', ball.x)
             ball.xmovement = 1
-        if (ball.rect).colliderect(p2.rect):
+
+
+        if ball.x + ball.radius in range(p2.x, p2.x + 25) and ball.y+ ball.radius in range(p2.y, p2.y + 150):
+            ball.x = ball.x- ball.radius- 5
+            print('ball x col. with right paddle ', ball.x)
             ball.xmovement = -1
+
+        #checking top p1
+        if ball.x- ball.radius in range(p1.x, p1.x+25):
+            ball.ymovement = 1
+        #checking bottom p1
+        if ball.x- ball.radius in range(p1.x-150, p1.x-150+25):
+            ball.ymovement = -1
+        #checking top p2
+        if ball.x+ ball.radius in range(p2.x, p2.x+25):
+            ball.ymovement = 1
+        #checking bottom p2
+        if ball.x+ ball.radius in range(p2.x-150, p2.x-150+25):
+            ball.ymovement = -1
+           
+
+        # if (ball.rect).colliderect(p1.rect):
+        #     ball.xmovement = 1
+        # if (ball.rect).colliderect(p2.rect):
+        #     ball.xmovement = -1
 
         
 ball = Ball()  
@@ -93,16 +113,15 @@ class Paddle():
         self.rect = None
 
     def drawPaddle(self):
-        self.rect = pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 150),0)
+        self.rect = pygame.draw.rect(screen, self.color, (self.x, self.y, 25, 150),0)
     def showScore(self, text, x, y, color):
         font = pygame.font.SysFont('freesans', 32)
         msg = font.render(text, True, color)
         screen.blit(msg, (x,y))
 
-p1 = Paddle(green, 10, 200)    # Paddle 1 
-p2 = Paddle(blue, 540, 200)  # Paddle 2 
-# showScore('Left Paddle: 0 | Right Paddle: 0', 100, 30)
-# showScore('Left Paddle: {} | Right Paddle: {}'.format(p1.score, p2.score), 100, 35, white)
+p1 = Paddle(green, 10, 200)    
+p2 = Paddle(blue, 565, 200) 
+
 
 while True:
 
@@ -115,6 +134,7 @@ while True:
     p1.showScore('Left Paddle: {}'.format(p1.score), 100, 35, white)
     p2.showScore('Right Paddle: {}'.format(p2.score), 300, 35, white)
 
+    # print(p1.x, p1.y)
     #boundaries 
     if p2.y <= 0:
         p2.y = 0
