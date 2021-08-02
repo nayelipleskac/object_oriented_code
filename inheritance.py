@@ -17,35 +17,35 @@
 #a derived class can use the base class's init method only if it doesn't have one of its own
 
 
-class Person:
-    def __init__(self, fname, lname):
-        self.firstname = fname
-        self.lastname = lname
+# class Person:
+#     def __init__(self, fname, lname):
+#         self.firstname = fname
+#         self.lastname = lname
 
-    def printname(self):
-        print(self.firstname, self.lastname)
+#     def printname(self):
+#         print(self.firstname, self.lastname)
 
-class Student(Person):
-    def __init__(self, fname, lname, studentID, GPA):
-        super().__init__(fname, lname)
-        self.studentID = studentID
-        self.GPA = GPA
-    def printname(self):
-        print('this is the overriding method!')
+# class Student(Person):
+#     def __init__(self, fname, lname, studentID, GPA):
+#         super().__init__(fname, lname)
+#         self.studentID = studentID
+#         self.GPA = GPA
+#     def printname(self):
+#         print('this is the overriding method!')
 
-class Teacher(Person):
-    def __init__(self, fname, lname, studentList):
-        super().__init__(fname,lname)
-        self.studentList = studentList
+# class Teacher(Person):
+#     def __init__(self, fname, lname, studentList):
+#         super().__init__(fname,lname)
+#         self.studentList = studentList
 
-s1 = Student('Robi', 'Sharma', 1, '1.0')
-s2 = Student('Tiya', 'Sharma', 2, '5.0')
-t1 = Teacher('Julian', 'Harriott',[s1,s2])
-print(s1.GPA)
-print(s2.studentID)
-print('inheriting: ',s2.printname(), s1.printname())
-for each in t1.studentList:
-    print(each.printname())
+# s1 = Student('Robi', 'Sharma', 1, '1.0')
+# s2 = Student('Tiya', 'Sharma', 2, '5.0')
+# t1 = Teacher('Julian', 'Harriott',[s1,s2])
+# print(s1.GPA)
+# print(s2.studentID)
+# print('inheriting: ',s2.printname(), s1.printname())
+# for each in t1.studentList:
+#     print(each.printname())
 
 
 class Person:
@@ -63,12 +63,19 @@ class Student(Person):
         self.GPA = GPA
 
 class Teacher(Person):
-    def __init__(self, teacherID, listOfStudents, class_size):
+    def __init__(self, teacherID, listOfStudents, class_size ):
+        # super().__init__(first, last, email, DOB, GPA)
         self.teacherID = teacherID
         self.listOfStudents = listOfStudents
         self.class_size = class_size
-    def showStudentInfo():
-
+    def showStudentInfo(self):
+        for each in self.listOfStudents:
+            print(self.teacherID, each.first, each.last, each.email, each.DOB, each.GPA)
+    def add_students(self):
+        s6 = Student(firstName, lastName, studemail, studDOB, studID, studGPA)
+        self.listOfStudents.append(s6)
+    def remove_students(self):
+        pass
 
 s1 = Student('Aaron', 'Pleskac', 'apleskac@gmail.com', '12/03/06', 5, '4.0')
 s2 = Student('Nick', 'Pleskac', 'npleskac@gmail.com', '10/05/07', 8, '3.0')
@@ -77,7 +84,24 @@ s4 = Student('Laura', 'Pleskac', 'lpleskac@gmail.com', '9/25/06', 9, '2.5')
 s5 = Student('Doug', 'Pleskac', 'dpleskac@gmail.com', '8/03/05', 9, '3.0')
 studentList = [s1, s2, s3, s4, s5]
 
-t1 = Teacher('1', studentList, len(studentList))
+t1 = Teacher('teacher', studentList, len(studentList), )
+t2 = t1.showStudentInfo()
 
-for each in studentList:
-    print(each.first, each.last, each.email, each.DOB, each.studentID, each.GPA)
+openinginput = input('Add or remove a student?')
+
+if openinginput == 'add':
+    print('Enter in all fields of a student obj!')
+    firstName = input('fname: ')
+    lastName = input('lname: ')
+    studemail = input('studemail: ')
+    studDOB = input('DOB: ')
+    studID = input('id: ')
+    studGPA = input('GPA: ')
+    t1.showStudentInfo()
+
+
+# for each in t1.listOfStudents:
+#     print(t1.showStudentInfo)
+
+# for each in studentList:
+#     print(each.first, each.last, each.email, each.DOB, each.studentID, each.GPA)
