@@ -75,7 +75,17 @@ class Teacher(Person):
         s6 = Student(firstName, lastName, studemail, studDOB, studID, studGPA)
         self.listOfStudents.append(s6)
     def remove_students(self):
-        pass
+        # print('in remove_students funct.')
+        # print(self.listOfStudents)
+        
+        for each in self.listOfStudents:
+            if fname == each.first:
+                print('checking first name')
+                print(each)
+                self.listOfStudents.remove(each)
+
+            
+            
 
 s1 = Student('Aaron', 'Pleskac', 'apleskac@gmail.com', '12/03/06', 5, '4.0')
 s2 = Student('Nick', 'Pleskac', 'npleskac@gmail.com', '10/05/07', 8, '3.0')
@@ -84,8 +94,11 @@ s4 = Student('Laura', 'Pleskac', 'lpleskac@gmail.com', '9/25/06', 9, '2.5')
 s5 = Student('Doug', 'Pleskac', 'dpleskac@gmail.com', '8/03/05', 9, '3.0')
 studentList = [s1, s2, s3, s4, s5]
 
-t1 = Teacher('teacher', studentList, len(studentList), )
-t2 = t1.showStudentInfo()
+t1 = Teacher('teacher', studentList, len(studentList))
+t2 = Teacher('teacher', [s3, s4], len(studentList))
+t3 = Teacher('teacher', [s5], len(studentList))
+
+# t2 = t1.showStudentInfo()
 
 openinginput = input('Add or remove a student?')
 
@@ -97,11 +110,20 @@ if openinginput == 'add':
     studDOB = input('DOB: ')
     studID = input('id: ')
     studGPA = input('GPA: ')
-    t1.showStudentInfo()
+    # t1.add_students()
+    t2.add_students()
+
+    # t1.showStudentInfo()
+    t2.showStudentInfo()
+
+if openinginput == 'remove':
+    print('Enter in the name of the student you want to remove')
+    fname = input('fname: ')
+    lname = input('lname: ')
+    # t1.remove_students  ()
+    t3.remove_students()
+    t3.showStudentInfo()
+
+    # t1.showStudentInfo()
 
 
-# for each in t1.listOfStudents:
-#     print(t1.showStudentInfo)
-
-# for each in studentList:
-#     print(each.first, each.last, each.email, each.DOB, each.studentID, each.GPA)
