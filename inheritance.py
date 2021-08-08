@@ -75,8 +75,7 @@ class Teacher(Person):
         s6 = Student(firstName, lastName, studemail, studDOB, studID, studGPA)
         self.listOfStudents.append(s6)
     def remove_students(self):
-        # print('in remove_students funct.')
-        # print(self.listOfStudents)
+     
         
         for each in self.listOfStudents:
             if fname == each.first:
@@ -111,9 +110,8 @@ if openinginput == 'add':
     studID = input('id: ')
     studGPA = input('GPA: ')
     # t1.add_students()
-    t2.add_students()
-
     # t1.showStudentInfo()
+    t2.add_students()
     t2.showStudentInfo()
 
 if openinginput == 'remove':
@@ -121,9 +119,10 @@ if openinginput == 'remove':
     fname = input('fname: ')
     lname = input('lname: ')
     # t1.remove_students  ()
+     # t1.showStudentInfo()
     t3.remove_students()
     t3.showStudentInfo()
 
-    # t1.showStudentInfo()
+   
 
 
