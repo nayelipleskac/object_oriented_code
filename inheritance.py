@@ -150,7 +150,7 @@ class shapes:
 
 class rect(shapes):
     def __init__(self, x, y, color, length, width):
-        super().__init__(x, y, color, )
+        super().__init__(x, y, color)
         self.length = length
         self.width = width
         self.shape = 'rectangle'
