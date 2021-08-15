@@ -25,7 +25,7 @@ class Character:
         self.width = width
     def draw_alien(self):
         alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
-        alien_sprite = pygame.transform.scale(alien_image, (55, 55))
+        alien_sprite = pygame.transform.scale(alien_image, (60, 60))
         screen.blit(alien_sprite, (self.x, self.y))
 
     def draw_boss(self):
@@ -37,17 +37,31 @@ class Character:
 
 
 class Alien(Character):
-    def __init__(self, x, y, length, width, randomNum):
+    xMotion= random.randint(-3,3)
+    def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
-        self.randomNum = randomNum
+        self.min_bound =  self.x
+        self.max_bound = self.x + self.width + 5
+
 
     def move_alien(self):
-        self.x+= self.randomNum
+        self.x += self.xMotion
+
+        # if self.x == self.max_bound:
+        #     print('max bound has been hit!')
+        #     self.y = self.y + 5
+
+        # if self.x + 60 >= 600:
+        #     self.y = self.y +60
+        #     self.xMotion = -self.xMotion 
+        # if self.x <= 0:
+        #     self.y = self.y +60
+        #     self.xMotion = -self.xMotion
 
 alien_list = []
 
-for i in range(10):
-    alien = Alien(200, 200, 100, 100, random.randint(-3, 3))
+for i in range(10, 550, 60):
+    alien = Alien(i, 200, 60, 60)
     alien_list.append(alien)
 
 while True:
@@ -56,8 +70,16 @@ while True:
 
     for a in alien_list:
         a.draw_alien()
-        # a.draw_boss()
         a.move_alien()
+
+        if a.x + 60 >= 600:
+            a.y = a.y +60
+            a.xMotion = -a.xMotion 
+
+        if a.x <= 0:
+            a.y = a.y +60
+            a.xMotion = -a.xMotion
+
 
     for event in pygame.event.get():
         if event.type == QUIT:
