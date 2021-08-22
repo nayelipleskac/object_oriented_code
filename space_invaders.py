@@ -16,6 +16,7 @@ white = (255, 255, 255)
 yellow = (200, 200, 0)
 
 colors = [red, green, blue, white, yellow]
+speedOptions = [-1,1]
 
 class Character:
     def __init__(self, x, y, length, width):
@@ -25,7 +26,7 @@ class Character:
         self.width = width
     def draw_alien(self):
         alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
-        alien_sprite = pygame.transform.scale(alien_image, (60, 60))
+        alien_sprite = pygame.transform.scale(alien_image, (40, 40))
         screen.blit(alien_sprite, (self.x, self.y))
 
     def draw_boss(self):
@@ -37,48 +38,48 @@ class Character:
 
 
 class Alien(Character):
-    xMotion= random.randint(-3,3)
+    xMotion= random.choice(speedOptions)
     def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
-        self.min_bound =  self.x
-        self.max_bound = self.x + self.width + 5
+        self.check = False
 
 
     def move_alien(self):
         self.x += self.xMotion
 
-        # if self.x == self.max_bound:
-        #     print('max bound has been hit!')
-        #     self.y = self.y + 5
-
-        # if self.x + 60 >= 600:
-        #     self.y = self.y +60
-        #     self.xMotion = -self.xMotion 
-        # if self.x <= 0:
-        #     self.y = self.y +60
-        #     self.xMotion = -self.xMotion
+class PlayerShip(Alien):
+    def __init__(self,x, y, length, width):
+        super().__init__(x, y, length, width)
 
 alien_list = []
 
-for i in range(10, 550, 60):
-    alien = Alien(i, 200, 60, 60)
-    alien_list.append(alien)
+for x in range(10, 550, 55):
+    for y in range(10, 300, 60):
+        alien = Alien(x, y, 40, 40)
+        alien_list.append(alien)
 
 while True:
     clock.tick(30)
     screen.fill(black)
 
+
     for a in alien_list:
         a.draw_alien()
         a.move_alien()
 
+
+
         if a.x + 60 >= 600:
-            a.y = a.y +60
-            a.xMotion = -a.xMotion 
+            for b in alien_list:
+                
+                b.y = b.y +20
+                b.xMotion = -b.xMotion 
 
         if a.x <= 0:
-            a.y = a.y +60
-            a.xMotion = -a.xMotion
+            for c in alien_list:
+
+                c.y = c.y +20
+                c.xMotion = -c.xMotion
 
 
     for event in pygame.event.get():
