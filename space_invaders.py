@@ -4,7 +4,7 @@ import random, pygame, time
 screen = pygame.display.set_mode((600, 600))
 pygame.init()
 pygame.display.set_caption("Space Invaders!!")
-from pygame.constants import KEYDOWN, K_c, K_r, K_s, QUIT
+from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_c, K_r, K_s, QUIT
 clock = pygame.time.Clock()
 
 
@@ -50,8 +50,18 @@ class Alien(Character):
 class PlayerShip(Alien):
     def __init__(self,x, y, length, width):
         super().__init__(x, y, length, width)
+        self.shipSpeed = 0
+    def draw_ship(self):
+        ship_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/ship.png")
+        ship_sprite = pygame.transform.scale(ship_image, (80, 40))
+        screen.blit(ship_sprite, (self.x, self.y))
+    def move_ship(self):
+        self.x += self.shipSpeed
+        
 
 alien_list = []
+
+player_ship = PlayerShip(300, 550, 80, 40)
 
 for x in range(10, 550, 55):
     for y in range(10, 300, 60):
@@ -62,30 +72,38 @@ while True:
     clock.tick(30)
     screen.fill(black)
 
-
     for a in alien_list:
         a.draw_alien()
         a.move_alien()
-
-
+        player_ship.draw_ship()
+        player_ship.move_ship()
 
         if a.x + 60 >= 600:
             for b in alien_list:
-                
                 b.y = b.y +20
                 b.xMotion = -b.xMotion 
 
         if a.x <= 0:
             for c in alien_list:
-
                 c.y = c.y +20
                 c.xMotion = -c.xMotion
+
+    #boundaries
+    if player_ship.x+80 >= 600:
+        player_ship.x = 520
+    if player_ship.x <= 0:
+        player_ship.x = 40
 
 
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             exit()
+        if event.type == KEYDOWN:
+                if event.key == K_LEFT:
+                    player_ship.x += -10
+                if event.key == K_RIGHT:
+                    player_ship.x += 10
 
     pygame.display.update()
 
