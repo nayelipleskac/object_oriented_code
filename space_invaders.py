@@ -4,7 +4,7 @@ import random, pygame, time
 screen = pygame.display.set_mode((600, 600))
 pygame.init()
 pygame.display.set_caption("Space Invaders!!")
-from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_c, K_r, K_s, QUIT
+from pygame.constants import KEYDOWN, KEYUP, K_LEFT, K_RIGHT, K_SPACE, K_c, K_r, K_s, QUIT
 clock = pygame.time.Clock()
 
 
@@ -58,10 +58,23 @@ class PlayerShip(Alien):
     def move_ship(self):
         self.x += self.shipSpeed
         
+class Bullet(Alien):
+    def __init__(self, x, y, length, width):
+        super().__init__(x, y, length, width)
+        self.bulletSpeed = 10
+    def draw_bullet(self):
+        bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
+        bullet_sprite = pygame.transform.scale(bullet_image, (5, 10))
+        screen.blit(bullet_sprite, (self.x, self.y))
+    def move_bullet(self):
+        self.x += self.bulletSpeed
+
+        
 
 alien_list = []
 
 player_ship = PlayerShip(300, 550, 80, 40)
+bullet = Bullet(player_ship.x+5, player_ship.y-5, 5, 10)
 
 for x in range(10, 550, 55):
     for y in range(10, 300, 60):
@@ -70,13 +83,15 @@ for x in range(10, 550, 55):
 
 while True:
     clock.tick(30)
+    pygame.display.update()
     screen.fill(black)
+
+    player_ship.draw_ship()
+    player_ship.move_ship()
 
     for a in alien_list:
         a.draw_alien()
         a.move_alien()
-        player_ship.draw_ship()
-        player_ship.move_ship()
 
         if a.x + 60 >= 600:
             for b in alien_list:
@@ -92,7 +107,7 @@ while True:
     if player_ship.x+80 >= 600:
         player_ship.x = 520
     if player_ship.x <= 0:
-        player_ship.x = 40
+        player_ship.x = 80
 
 
     for event in pygame.event.get():
@@ -100,12 +115,22 @@ while True:
             pygame.quit()
             exit()
         if event.type == KEYDOWN:
-                if event.key == K_LEFT:
-                    player_ship.x += -10
-                if event.key == K_RIGHT:
-                    player_ship.x += 10
 
-    pygame.display.update()
+            if event.key == K_LEFT:
+                player_ship.shipSpeed = -10
+            if event.key == K_RIGHT:
+                player_ship.shipSpeed = 10
+            if event.key == K_SPACE:
+                #shoot bullet
+                bullet.y -= bullet.bulletSpeed
+        if event.type == KEYUP:
+            if event.key == K_LEFT:
+                player_ship.shipSpeed = 0
+            if event.key == K_RIGHT:
+                player_ship.shipSpeed = 0
+            
+
+    
 
 
 
