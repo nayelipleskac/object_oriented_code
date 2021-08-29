@@ -47,7 +47,7 @@ class Alien(Character):
     def move_alien(self):
         self.x += self.xMotion
 
-class PlayerShip(Alien):
+class PlayerShip(Character):
     def __init__(self,x, y, length, width):
         super().__init__(x, y, length, width)
         self.shipSpeed = 0
@@ -58,7 +58,7 @@ class PlayerShip(Alien):
     def move_ship(self):
         self.x += self.shipSpeed
         
-class Bullet(Alien):
+class Bullet(Character):
     def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
         self.bulletSpeed = 10
