@@ -59,22 +59,34 @@ class PlayerShip(Character):
         self.x += self.shipSpeed
         
 class Bullet(Character):
-    def __init__(self, x, y, length, width):
+    def __init__(self, x, y, length, width, rect):
         super().__init__(x, y, length, width)
-        self.bulletSpeed = 10
+        self.bulletSpeed = 20
+        self.rect = rect
     def draw_bullet(self):
         bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
-        bullet_sprite = pygame.transform.scale(bullet_image, (5, 10))
+        bullet_sprite = pygame.transform.scale(bullet_image, (30, 60))
+        bullet_rect=bullet_sprite.get_rect()
+
         screen.blit(bullet_sprite, (self.x, self.y))
     def move_bullet(self):
-        self.x += self.bulletSpeed
-
+        self.y -= self.bulletSpeed
         
+        if self.y+60 <= 0:
+            print(bullet_list)
+            if self in bullet_list:
+                bullet_list.remove(self)
+            
+
+    def check(self):
+        #checking for alien collision
+        if self.rect.colliderect(bullet_sprite.get_rect()):
+            pass #Collision
 
 alien_list = []
+bullet_list = []
 
 player_ship = PlayerShip(300, 550, 80, 40)
-bullet = Bullet(player_ship.x+5, player_ship.y-5, 5, 10)
 
 for x in range(10, 550, 55):
     for y in range(10, 300, 60):
@@ -103,6 +115,13 @@ while True:
                 c.y = c.y +20
                 c.xMotion = -c.xMotion
 
+    
+
+    for b in bullet_list:
+        b.draw_bullet()
+        b.move_bullet()
+        b.check()
+
     #boundaries
     if player_ship.x+80 >= 600:
         player_ship.x = 520
@@ -122,12 +141,22 @@ while True:
                 player_ship.shipSpeed = 10
             if event.key == K_SPACE:
                 #shoot bullet
-                bullet.y -= bullet.bulletSpeed
+         
+                bullet = Bullet(player_ship.x+25, player_ship.y-50, 15, 20)
+                bullet_list.append(bullet)
+                # print(bullet_list)
+
+                clock.tick(30)
+                pygame.display.update()
+
+                
         if event.type == KEYUP:
             if event.key == K_LEFT:
                 player_ship.shipSpeed = 0
             if event.key == K_RIGHT:
                 player_ship.shipSpeed = 0
+           
+
             
 
     
