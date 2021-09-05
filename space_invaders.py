@@ -48,10 +48,12 @@ class Alien(Character):
         # alien_sprite = pygame.transform.scale(alien_image, (40, 40))
         screen.blit(self.alien_sprite, self.alien_rect)
 
-    def move_alien(self):
-        print(self.x, self.y)
 
+    def move_alien(self):
         self.x += self.xMotion
+        self.alien_rect[0] += self.xMotion
+
+        # self.alien_rect = self.alien_sprite.get_rect(topleft = (self.x += self.xMotion, self.y))
 
 class PlayerShip(Character):
     def __init__(self,x, y, length, width):
@@ -80,15 +82,12 @@ class Bullet(Character):
         self.y -= self.bulletSpeed
         
         if self.y+60 <= 0:
-            # print(bullet_list)
             if self in bullet_list:
                 bullet_list.remove(self)
             
     def check(self):
         pass
         
-       
-            
 
 alien_list = []
 bullet_list = []
@@ -113,26 +112,34 @@ while True:
         a.draw_alien()
         a.move_alien()
 
-
         if a.x + 40 >= 600:
             for b in alien_list:
                 b.y = b.y +20
                 b.xMotion = -b.xMotion 
+                b.alien_rect[1] = -b.xMotion
+
 
         if a.x <= 0:
             for c in alien_list:
                 c.y = c.y +20
                 c.xMotion = -c.xMotion
+                c.alien_rect[1] = -c.xMotion
+
+    if len(alien_list) == 0:
+        showtext('Game Over', 250, 100, white)
+        pygame.display.update()
+        time.sleep.update()
+        break
         
     #colision with player ship
-    # if a.y+40 >= 560:
-    #     print('GAME OVER')
-    #     showtext('Game Over!', 25 0, 100, white)
-    #     pygame.display.update()
-    #     time.sleep(3)
-    #     break
-        
+    if a.y+40 >= 560:
+        print('GAME OVER')
+        showtext('Game Over!', 250, 100, white)
+        pygame.display.update()
+        time.sleep(3)
+        break
 
+    
     for b in bullet_list:
         b.draw_bullet()
         b.move_bullet()
@@ -151,7 +158,7 @@ while True:
     if player_ship.x <= 0:
         player_ship.x = 0
 
-    # if alien
+  
 
 
     for event in pygame.event.get():
