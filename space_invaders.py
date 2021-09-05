@@ -16,7 +16,12 @@ white = (255, 255, 255)
 yellow = (200, 200, 0)
 
 colors = [red, green, blue, white, yellow]
-speedOptions = [-1,1]
+speedOptions = [-3,3]
+
+def showtext(msg,x,y,color):
+    font = pygame.font.SysFont("freesans", 32)
+    msgobj = font.render(msg,False,white)
+    screen.blit(msgobj,(x,y))
 
 class Character:
     def __init__(self, x, y, length, width):
@@ -32,18 +37,20 @@ class Character:
 
 class Alien(Character):
     xMotion= random.choice(speedOptions)
-    def __init__(self, x, y, length, width, alien_rect):
+    def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
-        self.check = False
-        self.alien_rect = alien_rect
+        self.alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
+        self.alien_sprite = pygame.transform.scale(self.alien_image, (40, 40))
+        self.alien_rect = self.alien_sprite.get_rect(topleft = (self.x, self.y))
 
     def draw_alien(self):
-        alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
-        alien_sprite = pygame.transform.scale(alien_image, (40, 40))
-        alien_get_rect = alien_sprite.get_rect()
-        screen.blit(alien_sprite, (self.x, self.y))
+        # alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
+        # alien_sprite = pygame.transform.scale(alien_image, (40, 40))
+        screen.blit(self.alien_sprite, self.alien_rect)
 
     def move_alien(self):
+        print(self.x, self.y)
+
         self.x += self.xMotion
 
 class PlayerShip(Character):
@@ -58,32 +65,29 @@ class PlayerShip(Character):
         self.x += self.shipSpeed
         
 class Bullet(Character):
-    def __init__(self, x, y, length, width, bullet_rect):
+    def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
         self.bulletSpeed = 20
-        self.bullet_rect = bullet_rect
+        self.bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
+        self.bullet_sprite = pygame.transform.scale(self.bullet_image, (30, 60))
+        self.bullet_rect = self.bullet_sprite.get_rect(topleft= (self.x, self.y))
     def draw_bullet(self):
-        bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
-        bullet_sprite = pygame.transform.scale(bullet_image, (30, 60))
-        bullet_get_rect = bullet_sprite.get_rect()
-        screen.blit(bullet_sprite, (self.x, self.y))
+        # bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
+        # bullet_sprite = pygame.transform.scale(bullet_image, (30, 60))
+        screen.blit(self.bullet_sprite, self.bullet_rect)
 
     def move_bullet(self):
         self.y -= self.bulletSpeed
         
         if self.y+60 <= 0:
-            print(bullet_list)
+            # print(bullet_list)
             if self in bullet_list:
                 bullet_list.remove(self)
             
-
     def check(self):
-        #checking for alien collision
         pass
         
-        # if self.bullet_get_rect.colliderect(alien_get_rect):
-        #     bullet_list.remove(self)
-        #     alien_list.remove(alien)
+       
             
 
 alien_list = []
@@ -93,7 +97,8 @@ player_ship = PlayerShip(300, 550, 80, 40)
 
 for x in range(10, 550, 55):
     for y in range(10, 300, 60):
-        alien = Alien(x, y, 40, 40, [x, y, 40, 40])
+        alien = Alien(x, y, 40, 40)
+        #[x, y, 40, 40] alien rect
         alien_list.append(alien)
 
 while True:
@@ -108,7 +113,8 @@ while True:
         a.draw_alien()
         a.move_alien()
 
-        if a.x + 60 >= 600:
+
+        if a.x + 40 >= 600:
             for b in alien_list:
                 b.y = b.y +20
                 b.xMotion = -b.xMotion 
@@ -117,24 +123,33 @@ while True:
             for c in alien_list:
                 c.y = c.y +20
                 c.xMotion = -c.xMotion
-
-    
+        
+    #colision with player ship
+    # if a.y+40 >= 560:
+    #     print('GAME OVER')
+    #     showtext('Game Over!', 25 0, 100, white)
+    #     pygame.display.update()
+    #     time.sleep(3)
+    #     break
+        
 
     for b in bullet_list:
         b.draw_bullet()
         b.move_bullet()
-        b.check()
 
+    #colision with bullet
     for a in alien_list:
         for b in bullet_list:
             if a.alien_rect.colliderect(b.bullet_rect):
                 print('collision!!')
+                alien_list.remove(a)
+                bullet_list.remove(b)
 
     #boundaries
     if player_ship.x+80 >= 600:
         player_ship.x = 520
     if player_ship.x <= 0:
-        player_ship.x = 80
+        player_ship.x = 0
 
     # if alien
 
@@ -152,7 +167,8 @@ while True:
             if event.key == K_SPACE:
                 #shoot bullet
          
-                bullet = Bullet(player_ship.x+25, player_ship.y-50, 15, 20, [x, y, 15, 20])
+                bullet = Bullet(player_ship.x+25, player_ship.y-50, 15, 20, )
+                #[x, y, 15, 20] bullet rect
                 bullet_list.append(bullet)
                 # print(bullet_list)
 
