@@ -35,7 +35,7 @@ class Alien(Character):
     yMotion = 5
     def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
-        self.alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
+        self.alien_image = pygame.image.load('images/alien.png')
         self.alien_sprite = pygame.transform.scale(self.alien_image, (40, 40))
         self.alien_rect = self.alien_sprite.get_rect(topleft = (self.x, self.y))
 
@@ -52,7 +52,7 @@ class PlayerShip(Character):
         super().__init__(x, y, length, width)
         self.shipSpeed = 0
     def draw_ship(self):
-        ship_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/ship.png")
+        ship_image = pygame.image.load('images/ship.png')
         ship_sprite = pygame.transform.scale(ship_image, (80, 40))
         screen.blit(ship_sprite, (self.x, self.y))
     def move_ship(self):
@@ -63,7 +63,7 @@ class Bullet(Character):
     def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
         self.bulletSpeed = 20
-        self.bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
+        self.bullet_image = pygame.image.load('images/bullet.png')
         self.bullet_sprite = pygame.transform.scale(self.bullet_image, (30, 60))
         self.bullet_rect = self.bullet_sprite.get_rect(topleft= (self.x, self.y))
     def draw_bullet(self):
