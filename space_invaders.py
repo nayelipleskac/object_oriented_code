@@ -30,13 +30,9 @@ class Character:
         self.length = length
         self.width = width
     
-        # boss_alien_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/boss-alien.png")
-        # boss_alien_sprite = pygame.transform.scale(boss_alien_image, (300, 300))
-        # screen.blit(boss_alien_sprite, (self.x, self.y))
-
-
 class Alien(Character):
     xMotion= random.choice(speedOptions)
+    yMotion = 5
     def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
         self.alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
@@ -44,16 +40,12 @@ class Alien(Character):
         self.alien_rect = self.alien_sprite.get_rect(topleft = (self.x, self.y))
 
     def draw_alien(self):
-        # alien_image = pygame.image.load("C:/Users\plesk/Documents/python projects/space invaders sprites/alien.png")
-        # alien_sprite = pygame.transform.scale(alien_image, (40, 40))
         screen.blit(self.alien_sprite, self.alien_rect)
-
 
     def move_alien(self):
         self.x += self.xMotion
         self.alien_rect[0] += self.xMotion
 
-        # self.alien_rect = self.alien_sprite.get_rect(topleft = (self.x += self.xMotion, self.y))
 
 class PlayerShip(Character):
     def __init__(self,x, y, length, width):
@@ -67,6 +59,7 @@ class PlayerShip(Character):
         self.x += self.shipSpeed
         
 class Bullet(Character):
+    yMotion= 5
     def __init__(self, x, y, length, width):
         super().__init__(x, y, length, width)
         self.bulletSpeed = 20
@@ -74,19 +67,17 @@ class Bullet(Character):
         self.bullet_sprite = pygame.transform.scale(self.bullet_image, (30, 60))
         self.bullet_rect = self.bullet_sprite.get_rect(topleft= (self.x, self.y))
     def draw_bullet(self):
-        # bullet_image = pygame.image.load("C:/Users/plesk/Documents/python projects/space invaders sprites/bullet.png")
-        # bullet_sprite = pygame.transform.scale(bullet_image, (30, 60))
+      
         screen.blit(self.bullet_sprite, self.bullet_rect)
 
     def move_bullet(self):
         self.y -= self.bulletSpeed
+        self.bullet_rect[1] -= self.yMotion
+
         
-        if self.y+60 <= 0:
+        if self.y+60 == 0:
             if self in bullet_list:
                 bullet_list.remove(self)
-            
-    def check(self):
-        pass
         
 
 alien_list = []
@@ -97,7 +88,6 @@ player_ship = PlayerShip(300, 550, 80, 40)
 for x in range(10, 550, 55):
     for y in range(10, 300, 60):
         alien = Alien(x, y, 40, 40)
-        #[x, y, 40, 40] alien rect
         alien_list.append(alien)
 
 while True:
@@ -112,18 +102,25 @@ while True:
         a.draw_alien()
         a.move_alien()
 
+        print('pos: ',a.x, a.y)
+        #colision with wall
         if a.x + 40 >= 600:
+            print('colision with right wall') 
             for b in alien_list:
-                b.y = b.y +20
+                b.y = b.y +10
                 b.xMotion = -b.xMotion 
-                b.alien_rect[1] = -b.xMotion
+                b.alien_rect[0] = -b.xMotion
+                # print('pos on right: ',a.x,  a.y)
+                
 
 
         if a.x <= 0:
-            for c in alien_list:
-                c.y = c.y +20
-                c.xMotion = -c.xMotion
-                c.alien_rect[1] = -c.xMotion
+            print('colision with left wall')
+            for b in alien_list:
+                b.y = b.y +10
+                b.xMotion = -b.xMotion
+                b.alien_rect[0] = -b.xMotion
+                # print('pos on left: ', a.x,  a.y)
 
     if len(alien_list) == 0:
         showtext('Game Over', 250, 100, white)
@@ -175,9 +172,8 @@ while True:
                 #shoot bullet
          
                 bullet = Bullet(player_ship.x+25, player_ship.y-50, 15, 20, )
-                #[x, y, 15, 20] bullet rect
                 bullet_list.append(bullet)
-                # print(bullet_list)
+          
 
                 clock.tick(30)
                 pygame.display.update()
