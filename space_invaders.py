@@ -16,7 +16,7 @@ white = (255, 255, 255)
 yellow = (200, 200, 0)
 
 colors = [red, green, blue, white, yellow]
-speedOptions = [-3,3]
+speedOptions = [3]
 
 def showtext(msg,x,y,color):
     font = pygame.font.SysFont("freesans", 32)
@@ -45,6 +45,8 @@ class Alien(Character):
     def move_alien(self):
         self.x += self.xMotion
         self.alien_rect[0] += self.xMotion
+
+        
 
 
 class PlayerShip(Character):
@@ -104,37 +106,50 @@ while True:
 
         print('pos: ',a.x, a.y)
         #colision with wall
+        # when alien on left side hits first, 
+        # it goes into the negatives and is
+        # behind the others. set the top left alien
+        # position x ot be the same as the others in the column
+        #change the b.xMotion += 
+        #a.y += 40 outside of for loop bc it will do it once
+        #y off set - addingto it 
         if a.x + 40 >= 600:
-            print('colision with right wall') 
+            print('colision with right wall')
+            a.y += 40
+            a.alien_rect[1] = a.y + 40 
             for b in alien_list:
-                b.y = b.y +10
-                b.xMotion = -b.xMotion 
-                b.alien_rect[0] = -b.xMotion
-                # print('pos on right: ',a.x,  a.y)
+            
+            
+                b.xMotion -= b.xMotion
+                b.alien_rect[0] -= b.xMotion
                 
-
-
+                
         if a.x <= 0:
             print('colision with left wall')
+            a.y += 40
+            a.alien_rect[1] = a.y +40
             for b in alien_list:
-                b.y = b.y +10
-                b.xMotion = -b.xMotion
-                b.alien_rect[0] = -b.xMotion
-                # print('pos on left: ', a.x,  a.y)
+                # b[0].x = b[1].x -
+               
+                b.xMotion += b.xMotion
+                b.alien_rect[0] += b.xMotion
+                
+                
 
     if len(alien_list) == 0:
+        level2 = True
         showtext('Game Over', 250, 100, white)
         pygame.display.update()
         time.sleep.update()
         break
         
     #colision with player ship
-    if a.y+40 >= 560:
-        print('GAME OVER')
-        showtext('Game Over!', 250, 100, white)
-        pygame.display.update()
-        time.sleep(3)
-        break
+    # if a.y+40 >= 560:
+    #     print('GAME OVER')
+    #     showtext('Game Over!', 250, 100, white)
+    #     pygame.display.update()
+    #     time.sleep(3)
+    #     break
 
     
     for b in bullet_list:
@@ -155,8 +170,6 @@ while True:
     if player_ship.x <= 0:
         player_ship.x = 0
 
-  
-
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -170,7 +183,6 @@ while True:
                 player_ship.shipSpeed = 10
             if event.key == K_SPACE:
                 #shoot bullet
-         
                 bullet = Bullet(player_ship.x+25, player_ship.y-50, 15, 20, )
                 bullet_list.append(bullet)
           
